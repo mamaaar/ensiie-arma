@@ -8,7 +8,7 @@
 #include <x86intrin.h>
 
 #ifndef N
-  #define N 160
+  #define N 3200
 #endif
 
 

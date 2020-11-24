@@ -8,7 +8,7 @@
 #include <x86intrin.h>
 
 #ifndef N
-  #define N 160
+  #define N 3200
 #endif
 
 
@@ -29,10 +29,7 @@ void _mm256_store_si256 (__m256i * mem_addr, __m256i a)
 void somme() {
     for (int i = 0; i < N; ++i)
     {
-        __m256i atemp = _mm256_load_si256( &A[i] );
-        __m256i btemp = _mm256_load_si256( &B[i] );
-        _mm256_store_si256 ( &C[i], _mm256_add_epi64(atemp,btemp));
-
+	C[i] = _mm256_add_epi64(A[i],B[i]);
     }
 
 }
@@ -41,7 +38,7 @@ int main() {
     struct timespec t0, t1;
     double tmp;
 
-    assert (N%16 == 0);
+    assert (N%32 == 0);
 
     srand( time( NULL ) );
 

@@ -10,7 +10,7 @@ gcc -Wall -Wextra -lrt -msse2 -O2 sum_sse2.c -o sum_sse2
 #include <x86intrin.h>
 
 #ifndef N
-  #define N 160
+  #define N 3200
 #endif
 
 
@@ -25,9 +25,7 @@ __m128i C[N];
 void somme() {
     for (int i = 0; i < N; ++i)
     {
-        __m128i atemp = _mm_loadu_si128( &A[i] );
-        __m128i btemp = _mm_loadu_si128( &B[i] );
-        _mm_store_si128 ( &C[i], _mm_add_epi64(atemp,btemp));
+      C[i] = _mm_add_epi64(A[i],B[i]);
 
     }
 
