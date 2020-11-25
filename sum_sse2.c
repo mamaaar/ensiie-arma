@@ -9,14 +9,16 @@ gcc -Wall -Wextra -lrt -msse2 -O2 sum_sse2.c -o sum_sse2
 
 #include <x86intrin.h>
 
+#define DEBUG
+
 #ifndef N
   #define N 3200
 #endif
 
 
-__m128i A[N];
-__m128i B[N];
-__m128i C[N];
+char A[N];
+char B[N];
+char C[N];
 
 
 /* __m128i _mm_loadu_si128 (__m128i const* mem_addr) */
@@ -25,8 +27,10 @@ __m128i C[N];
 void somme() {
     for (int i = 0; i < N; ++i)
     {
-      C[i] = _mm_add_epi64(A[i],B[i]);
-
+        __m128i ai = _mm_set1_epi8( A[i] );
+        __m128i bi = _mm_set1_epi8( B[i] );
+    
+        _mm_store_si128 (&C[i], _mm_add_epi8(ai, bi));
     }
 
 }
@@ -54,7 +58,7 @@ int main() {
     tmp = 1000.*(t1.tv_sec-t0.tv_sec) + (t1.tv_nsec-t0.tv_nsec)/1000000. ;
 
 #ifdef DEBUG
-    for (i=0; i<N; ++i) {
+    for (int i=0; i<N; ++i) {
         fprintf(stderr, "[ ");
         fprintf(stderr, "%d ", C[i]);
         fprintf(stderr, "]\n");
